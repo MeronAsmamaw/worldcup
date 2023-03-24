@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Cards</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
+    <div class="d-grid gap-2 mt-5">
+        <button id="generateButton" class="btn btn-primary" onclick="generate()" type="button">Generate Countries</button>
+    </div>
+
+    <div class="container-fluid mt-3">
+        <div class="row gap-5 justify-content-center">
+            <div class="col-md-2 border">
+                <label class="mt-2" id="1" for="ga1">Country</label>
+                <input class="form-control" type="number" id="ga1">
+                <label class="mt-2" id="2" for="ga2">Country</label>
+                <input class="form-control" type="number" id="ga2">
+                <label class="mt-2" id="3" for="ga3">Country</label>
+                <input class="form-control" type="number" id="ga3">
+                <label class="mt-2" id="4" for="ga4">Country</label>
+                <input class="form-control mb-2" type="number" id="ga4">
+                <button type="button" onclick="chart1()" class="btn btn-primary mb-2">Chart</button>
+            </div>
+            <div class="col-md-2 border">
+                <label class="mt-2" id="5" for="gb1">Country</label>
+                <input class="form-control" type="number" id="gb1">
+                <label class="mt-2" id="6" for="gb2">Country</label>
+                <input class="form-control" type="number" id="gb2">
+                <label class="mt-2" id="7" for="gb3">Country</label>
+                <input class="form-control" type="number" id="gb3">
+                <label class="mt-2" id="8" for="gb4">Country</label>
+                <input class="form-control mb-2" type="number" id="gb4">
+                <button type="button" onclick="chart2()" class="btn btn-primary mb-2">Chart</button>
+            </div>
+            <div class="col-md-2 border">
+                <label class="mt-2" id="9" for="gc1">Country</label>
+                <input class="form-control" type="number" id="gc1">
+                <label class="mt-2" id="10" for="gc2">Country</label>
+                <input class="form-control" type="number" id="gc2">
+                <label class="mt-2" id="11" for="gc3">Country</label>
+                <input class="form-control" type="number" id="gc3">
+                <label class="mt-2" id="12" for="gc4">Country</label>
+                <input class="form-control mb-2" type="number" id="gc4">
+                <button type="button" onclick="chart3()" class="btn btn-primary mb-2">Chart</button>
+            </div>
+            <div class="col-md-2 border">
+                <label class="mt-2" id="13" for="gd1">Country</label>
+                <input class="form-control" type="number" id="gd1">
+                <label class="mt-2" id="14" for="gd2">Country</label>
+                <input class="form-control" type="number" id="gd2">
+                <label class="mt-2" id="15" for="gd3">Country</label>
+                <input class="form-control" type="number" id="gd3">
+                <label class="mt-2" id="16" for="gd4">Country</label>
+                <input class="form-control mb-2" type="number" id="gd4">
+                <button type="button" onclick="chart4()" class="btn btn-primary mb-2">Chart</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="container-fluid" class="mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <figure class="highcharts-figure">
+                    <div id="container1"></div>
+
+                </figure>
+            </div>
+
+            <div class="col-md-6">
+                <figure class="highcharts-figure">
+                    <div id="container2"></div>
+
+                </figure>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function generate() {
+            const countriesUrl = `https://restcountries.com/v3.1/all`;
+            var randomCountries = new Array();
+            fetch(countriesUrl)
+                .then(response => response.json())
+                .then(countriesData => {
+                    for (let i = 0; i < 16; i++) {
+                        let random = Math.floor(Math.random() * countriesData.length)
+
+                        let countriesName = countriesData[random].name.common;
+
+                        randomCountries.push(countriesName);
+                    }
+
+                    for (let i = 0; i < randomCountries.length; i++) {
+                        document.getElementById(`${i+1}`).innerHTML = randomCountries[i];
+                    }
+
+                })
+                .catch(error => console.error(error))
+        }
+
+
+
+
+
+        // Define the chart options
+
+        function chart1() {
+
+
+            var ga1 = document.querySelector("#ga1")
+            var ga2 = document.querySelector("#ga2")
+            var ga3 = document.querySelector("#ga3")
+            var ga4 = document.querySelector("#ga4")
+
+            //var label = document.querySelector("#1")
+            //var label = document.querySelector("#2")
+            //var label = document.querySelector("#3")
+            //var label = document.querySelector("#4")
+
+            //  alert(ga1.value)
+            // Data retrieved from https://netmarketshare.com
+            // Data retrieved from https://netmarketshare.com
+            Highcharts.chart('container1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'PIE',
+                    align: 'left'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'label',
+                        y: Number(ga1.value)
+                    }, {
+                        name: 'team 2',
+                        y: Number(ga2.value)
+                    }, {
+                        name: 'team 3',
+                        y: Number(ga3.value)
+                    }, {
+                        name: ' team 4',
+                        y: Number(ga4.value)
+                    }]
+                }]
+            });
+
+
+            // Create the chart
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'football '
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: [
+                        'taem1',
+                        'team2',
+                        'team3',
+                        'team4'
+
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rainfall (mm)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Berlin',
+                    data: [Number(ga1.value), Number(ga2.value), Number(ga3.value), Number(ga4.value)]
+
+                }]
+            });
+        }
+
+
+
+        function chart2() {
+
+
+            var ga1 = document.querySelector("#gb1")
+            var ga2 = document.querySelector("#gb2")
+            var ga3 = document.querySelector("#gb3")
+            var ga4 = document.querySelector("#gb4")
+
+            //  alert(ga1.value)
+            // Data retrieved from https://netmarketshare.com
+            // Data retrieved from https://netmarketshare.com
+            Highcharts.chart('container1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'PIE',
+                    align: 'left'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'team 1',
+                        y: Number(gb1.value)
+                    }, {
+                        name: 'team 2',
+                        y: Number(gb2.value)
+                    }, {
+                        name: 'team 3',
+                        y: Number(gb3.value)
+                    }, {
+                        name: ' team 4',
+                        y: Number(gb4.value)
+                    }]
+                }]
+            });
+
+
+            // Create the chart
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Average Rainfall'
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: [
+                        'taem1',
+                        'team2',
+                        'team3',
+                        'team4'
+
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rainfall (mm)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Berlin',
+                    data: [Number(gb1.value), Number(gb2.value), Number(gb3.value), Number(gb4.value)]
+
+                }]
+            });
+        }
+
+
+        function chart3() {
+
+
+            var ga1 = document.querySelector("#gc1")
+            var ga2 = document.querySelector("#gc2")
+            var ga3 = document.querySelector("#gc3")
+            var ga4 = document.querySelector("#gc4")
+
+            //  alert(ga1.value)
+            // Data retrieved from https://netmarketshare.com
+            // Data retrieved from https://netmarketshare.com
+            Highcharts.chart('container1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'PIE',
+                    align: 'left'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'team 1',
+                        y: Number(gc1.value)
+                    }, {
+                        name: 'team 2',
+                        y: Number(gc2.value)
+                    }, {
+                        name: 'team 3',
+                        y: Number(gc3.value)
+                    }, {
+                        name: ' team 4',
+                        y: Number(gc4.value)
+                    }]
+                }]
+            });
+
+
+            // Create the chart
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Average Rainfall'
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: [
+                        'taem1',
+                        'team2',
+                        'team3',
+                        'team4'
+
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rainfall (mm)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Berlin',
+                    data: [Number(gc1.value), Number(gc2.value), Number(gc3.value), Number(gc4.value)]
+
+                }]
+            });
+        }
+
+        function chart4() {
+
+
+            var ga1 = document.querySelector("#gd1")
+            var ga2 = document.querySelector("#gd2")
+            var ga3 = document.querySelector("#gd3")
+            var ga4 = document.querySelector("#gd4")
+
+            //  alert(ga1.value)
+            // Data retrieved from https://netmarketshare.com
+            // Data retrieved from https://netmarketshare.com
+            Highcharts.chart('container1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'PIE',
+                    align: 'left'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'team 1',
+                        y: Number(gd1.value)
+                    }, {
+                        name: 'team 2',
+                        y: Number(gd2.value)
+                    }, {
+                        name: 'team 3',
+                        y: Number(gd3.value)
+                    }, {
+                        name: ' team 4',
+                        y: Number(gd4.value)
+                    }]
+                }]
+            });
+
+
+            // Create the chart
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Average Rainfall'
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: [
+                        'taem1',
+                        'team2',
+                        'team3',
+                        'team4'
+
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rainfall (mm)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Berlin',
+                    data: [Number(gd1.value), Number(gd2.value), Number(gd3.value), Number(gd4.value)]
+
+                }]
+            });
+        }
+    </script>
